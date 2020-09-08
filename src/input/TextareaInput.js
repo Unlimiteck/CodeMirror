@@ -42,7 +42,7 @@ export default class TextareaInput {
 
     on(te, "input", () => {
       if (ie && ie_version >= 9 && this.hasSelection) this.hasSelection = null
-      input.poll()
+      //input.poll()
     })
 
     on(te, "paste", e => {
