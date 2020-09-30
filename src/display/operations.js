@@ -121,7 +121,7 @@ function endOperation_W2(op) {
   if (op.updatedDisplay || op.startHeight != cm.doc.height)
     updateScrollbars(cm, op.barMeasure)
   if (op.updatedDisplay)
-    setDocumentHeight(cm, op.barMeasure)
+    setDocumentHeight(cm, op.barMeasure, !op.typing)
 
   if (op.selectionChanged) restartBlink(cm)
 
