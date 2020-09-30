@@ -256,7 +256,7 @@ export function updateGutterSpace(display) {
   display.sizer.style.marginLeft = width + "px"
 }
 
-export function setDocumentHeight(cm, measure, useMinHeight) {
+export function setDocumentHeight(cm, measure, useMinHeight=true) {
   if (useMinHeight) {
     cm.display.sizer.style.minHeight = measure.docHeight + "px";
   } else {
