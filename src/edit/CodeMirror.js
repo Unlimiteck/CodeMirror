@@ -59,7 +59,8 @@ export function CodeMirror(place, options) {
     draggingText: false,
     highlight: new Delayed(), // stores highlight worker timeout
     keySeq: null,  // Unfinished key sequence
-    specialChars: null
+    specialChars: null,
+    keyCode: null
   }
 
   if (options.autofocus && !mobile) display.input.focus()

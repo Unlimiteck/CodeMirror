@@ -11,6 +11,7 @@ import { restartBlink } from "./selection.js"
 import { maybeScrollWindow, scrollPosIntoView, setScrollLeft, setScrollTop } from "./scrolling.js"
 import { DisplayUpdate, maybeClipScrollbars, postUpdateDisplay, setDocumentHeight, updateDisplayIfNeeded } from "./update_display.js"
 import { updateHeightsInViewport } from "./update_lines.js"
+import { keyNames } from "../input/keynames.js"
 
 // Operations are used to wrap a series of changes to the editor
 // state in such a way that each change won't have to update the
@@ -107,6 +108,11 @@ function endOperation_R2(op) {
 
 function endOperation_W2(op) {
   let cm = op.cm
+  // if is not typing and is not a key code of list use minHeight else use height to update editor
+  let keyName = keyNames[cm.state.keyCode]
+  cm.state.keyCode = null
+  // in setDocumentHeight function, use the minHeight slow down the css render, instead we use height which is faster
+  let useMinHeight = !op.typing ? !['Space', 'Backspace', 'Enter'].includes(keyName) : false
 
   if (op.adjustWidthTo != null) {
     cm.display.sizer.style.minWidth = op.adjustWidthTo + "px"
@@ -121,7 +127,7 @@ function endOperation_W2(op) {
   if (op.updatedDisplay || op.startHeight != cm.doc.height)
     updateScrollbars(cm, op.barMeasure)
   if (op.updatedDisplay)
-    setDocumentHeight(cm, op.barMeasure, !op.typing)
+    setDocumentHeight(cm, op.barMeasure, useMinHeight)
 
   if (op.selectionChanged) restartBlink(cm)
 
